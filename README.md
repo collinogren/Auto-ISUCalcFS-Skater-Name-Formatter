@@ -1,4 +1,4 @@
-# Auto ISUCalcFS Skater Name Formatter
+# Skater Formatter
 - Download the executable file from the releases page.
 - Place it anywhere that is accessible.
 - Run it when you need to copy and paste skater names into ISUCalcFS.
