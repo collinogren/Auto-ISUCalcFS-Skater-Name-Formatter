@@ -33,18 +33,13 @@ fn main() {
     check_for_exit(should_run.clone());
     while should_run.read().unwrap().should_run {
         sleep(Duration::from_millis(50));
-        if last_content.is_none() {
-            last_content = Some(ctx.get_contents().unwrap());
-        }
-        
         let content = match ctx.get_contents() {
             Ok(contents) => { contents }
             Err(_) => { continue }
         };
 
-        if content.eq(&last_content.clone().unwrap()) {
-            continue;
-        } else {
+        // Short-circuit evaluation prevents an error on last_content = None.
+        if last_content.is_none() || !content.eq(&last_content.clone().unwrap()) {
             ctx.set_contents(match format_full_name(content.clone()) {
                 None => {
                     //println!("Failed to format contents");
@@ -57,6 +52,8 @@ fn main() {
                     contents
                 }
             }).unwrap();
+        } else {
+            continue
         }
     }
 }
